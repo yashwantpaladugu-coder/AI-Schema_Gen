@@ -1,17 +1,26 @@
+# AI Schema Generator
 
-# Run app
+> Upload an image, URL, or text of unstructured data (like a receipt, form, or spreadsheet) — and instantly get a production-ready **database schema**, **REST API**, **ERD diagram**, and **API documentation**.
 
-This contains everything you need to run your app locally.
+**Live Demo:** [ai-schema-generator-544356038285.us-west1.run.app](https://ai-schema-generator-544356038285.us-west1.run.app)
 
-View your app: https://ai-schema-generator-544356038285.us-west1.run.app
+---
 
-## Run Locally
+## Features
 
-**Prerequisites:**  Node.js
+- **Multi-Input Support:** Upload an image, PDF, text snippet, or public Google Sheet  
+-  **AI Schema Inference:** Detects tables, columns, and data types automatically  
+-  **Auto API Generation:** Creates full CRUD endpoints with OpenAPI (Swagger) docs  
+-  **Visual ER Diagram:** View inferred relationships instantly  
+-  **One-Click Deploy:** Deploy your schema and API to the cloud  
+-  **Built-In Playground:** Test endpoints directly from the web interface  
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🖥️ Quick Start (Local)
+
+### 1️⃣ Clone and Install
+```bash
+git clone https://github.com/yashwantpaladugu-coder/AI-Schema_Gen.git
+cd AI-Schema_Gen
+npm install
