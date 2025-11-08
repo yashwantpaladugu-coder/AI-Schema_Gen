@@ -3,7 +3,7 @@
 
 This contains everything you need to run your app locally.
 
-View your app in AI Studio: https://ai.studio/apps/drive/18hvP312Cr8RgV-s6NZj7DGHn7iT8FRGN
+View your app: https://ai-schema-generator-544356038285.us-west1.run.app
 
 ## Run Locally
 
