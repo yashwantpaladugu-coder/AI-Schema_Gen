@@ -1,0 +1,5 @@
+{
+  "name": "AI Schema Generator",
+  "description": "An AI tool for developers. You provide any data source (an image, PDF, CSV, URL, or text description), and it generates and deploys a production-ready database schema and a full-featured REST API for it.",
+  "requestFramePermissions": []
+}
