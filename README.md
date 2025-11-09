@@ -5,13 +5,13 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-3.x-informational)](https://tailwindcss.com/)
 
-An advanced AI tool that transforms any data source—be it an image, PDF, CSV, URL, or plain text—into a complete, production-ready backend specification. It generates a normalized SQL database schema, a full-featured REST API definition, a visual ERD diagram, and detailed design reasoning in seconds.
+An advanced AI tool that transforms any data source be it an image, PDF, CSV, URL, or plain text into a complete, production-ready backend specification. It generates a normalized SQL database schema, a full-featured REST API definition, a visual ERD diagram, and detailed design reasoning in seconds.
 
 ## Overview
 
 The AI Schema Generator is designed to dramatically accelerate the backend design and prototyping phase for developers. By leveraging the powerful reasoning capabilities of Google's Gemini model, this application automates the tedious process of data modeling and API design. Simply provide a data source, and the AI will act as an expert software architect to deliver a comprehensive set of development assets.
 
-![Application Screenshot](https://storage.googleapis.com/aistudio-hosting/project-assets/readme-images/ai-schema-generator-demo.png)
+DEMO WORKING SITE: https://ai-schema-generator-544356038285.us-west1.run.app
 
 ## Key Features
 
@@ -105,4 +105,4 @@ Contributions are welcome! If you have ideas for new features or find any bugs, 
 
 ## License
 
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
+MIT License © 2025 [Yashwanth Paladugu](https://github.com/yashwantpaladugu-coder)
