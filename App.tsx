@@ -9,11 +9,10 @@ import { FileIcon, DeployIcon, BrainIcon, DiagramIcon, SQLIcon, APIIcon } from '
 import { ReasoningDisplay } from './components/ReasoningDisplay';
 import { Visualization } from './components/Visualization';
 import { DeploymentStatus } from './components/DeploymentStatus';
-import { ApiExplorer } from './components/ApiExplorer';
+import { generateApiExplorerHtml } from './components/ApiExplorer';
 
 
 type ActiveTab = 'schema' | 'api' | 'reasoning' | 'diagram';
-type View = 'generator' | 'apiExplorer';
 
 const App: React.FC = () => {
   const [userInput, setUserInput] = useState<UserInput | null>(null);
@@ -28,7 +27,6 @@ const App: React.FC = () => {
 
   const [inputKey, setInputKey] = useState(Date.now());
   
-  const [view, setView] = useState<View>('generator');
   const [deployedApiContent, setDeployedApiContent] = useState<SchemaResponse | null>(null);
 
   const handleUserInput = (input: UserInput | null) => {
@@ -78,9 +76,11 @@ const App: React.FC = () => {
     setShowDeploymentModal(true);
     setIsDeploying(true);
     setDeploymentUrl(null);
-    setDeployedApiContent(generatedContent); // Save content for the explorer view
+    setDeployedApiContent(generatedContent); // Save content for the new tab
     setTimeout(() => {
-        setDeploymentUrl('https://ai-schema-generator-544356038285.us-west1.run.app/docs');
+        const randomHash = Math.random().toString(36).substring(2, 8);
+        const newUrl = `https://api-${randomHash}.prod.dev-cloud.run/v1/docs`;
+        setDeploymentUrl(newUrl);
         setIsDeploying(false);
     }, 3000);
   }, [generatedContent]);
@@ -90,12 +90,16 @@ const App: React.FC = () => {
   }
 
   const handleViewApi = () => {
-    setShowDeploymentModal(false);
-    setView('apiExplorer');
-  };
+    if (!deployedApiContent || !deploymentUrl) return;
 
-  const handleBackToGenerator = () => {
-    setView('generator');
+    const htmlContent = generateApiExplorerHtml(deployedApiContent, deploymentUrl);
+    
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+    
+    window.open(blobUrl, '_blank');
+    
+    setShowDeploymentModal(false);
   };
 
   const TabButton = ({ tabName, label, icon }: { tabName: ActiveTab, label: string, icon: React.ReactNode}) => (
@@ -111,10 +115,6 @@ const App: React.FC = () => {
         <span>{label}</span>
     </button>
   );
-
-  if (view === 'apiExplorer' && deployedApiContent && deploymentUrl) {
-    return <ApiExplorer apiContent={deployedApiContent} deploymentUrl={deploymentUrl} onBack={handleBackToGenerator} />
-  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col">

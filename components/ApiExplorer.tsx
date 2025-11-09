@@ -1,62 +1,125 @@
-import React from 'react';
 import type { SchemaResponse } from '../types';
-import { Header } from './Header';
-import { APIIcon } from './icons';
 
-interface ApiExplorerProps {
-  apiContent: SchemaResponse;
-  deploymentUrl: string;
-  onBack: () => void;
-}
-
-const getMethodColor = (method: string) => {
+const getMethodColorStyles = (method: string) => {
     switch (method.toUpperCase()) {
-        case 'GET': return 'bg-green-600/80 text-green-100';
-        case 'POST': return 'bg-blue-600/80 text-blue-100';
-        case 'PUT': return 'bg-yellow-600/80 text-yellow-100';
-        case 'PATCH': return 'bg-orange-600/80 text-orange-100';
-        case 'DELETE': return 'bg-red-600/80 text-red-100';
-        default: return 'bg-gray-600/80 text-gray-100';
+      case 'GET': return 'background-color: #059669; color: #d1fae5;';
+      case 'POST': return 'background-color: #2563eb; color: #dbeafe;';
+      case 'PUT': return 'background-color: #d97706; color: #fef3c7;';
+      case 'PATCH': return 'background-color: #ea580c; color: #ffedd5;';
+      case 'DELETE': return 'background-color: #dc2626; color: #fee2e2;';
+      default: return 'background-color: #4b5563; color: #e5e7eb;';
     }
 };
 
-
-export const ApiExplorer: React.FC<ApiExplorerProps> = ({ apiContent, deploymentUrl, onBack }) => {
-    return (
-        <div className="min-h-screen bg-gray-900 text-gray-200 flex flex-col">
-            <Header />
-            <main className="flex-grow container mx-auto p-4 md:p-8">
-                <div className="mb-8">
-                    <button onClick={onBack} className="text-brand-secondary hover:underline mb-4">
-                        &larr; Back to Generator
-                    </button>
-                    <h2 className="text-3xl font-bold text-white">Live API Explorer</h2>
-                    <p className="text-gray-400 mt-2">Your generated REST API is available at the following base URL:</p>
-                    <div className="mt-2 bg-gray-800 border border-gray-700 rounded-md p-3 font-mono text-green-400">
-                        {deploymentUrl}
-                    </div>
-                </div>
-
-                <div className="bg-gray-800/50 rounded-lg border border-gray-700 shadow-lg">
-                    <div className="p-6 border-b border-gray-700 flex items-center space-x-3">
-                        <APIIcon className="w-6 h-6 text-blue-400" />
-                        <h3 className="text-xl font-semibold text-white">API Endpoints</h3>
-                    </div>
-                    <div className="divide-y divide-gray-700">
-                        {apiContent.apiEndpoints.map((endpoint, index) => (
-                             <div key={index} className="p-4 md:p-6 grid grid-cols-[auto,1fr] items-center gap-4 hover:bg-gray-800 transition-colors duration-200">
-                                <span className={`w-24 text-center font-mono text-sm font-bold p-2 rounded-md ${getMethodColor(endpoint.method)}`}>
-                                    {endpoint.method.toUpperCase()}
-                                </span>
-                                <div className='font-mono text-gray-300'>
-                                    <p className="text-md">{endpoint.path}</p>
-                                    <p className="text-sm text-gray-400 mt-1 font-sans">{endpoint.summary}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </main>
+export const generateApiExplorerHtml = (apiContent: SchemaResponse, deploymentUrl: string): string => {
+    const baseUrl = deploymentUrl.replace('/docs', '');
+    const endpointsHtml = apiContent.apiEndpoints.map(endpoint => `
+        <div class="endpoint">
+        <span class="method" style="${getMethodColorStyles(endpoint.method)}">${endpoint.method.toUpperCase()}</span>
+        <div class="details">
+            <p class="path">${baseUrl}${endpoint.path}</p>
+            <p class="summary">${endpoint.summary}</p>
         </div>
-    );
+        </div>
+    `).join('');
+
+    return `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>API Documentation</title>
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background-color: #111827;
+          color: #d1d5db;
+          margin: 0;
+          padding: 2rem;
+        }
+        .container {
+          max-width: 900px;
+          margin: 0 auto;
+        }
+        h1 {
+          font-size: 2.25rem;
+          color: #ffffff;
+          border-bottom: 1px solid #374151;
+          padding-bottom: 1rem;
+          margin-bottom: 1rem;
+        }
+        h2 {
+          font-size: 1.5rem;
+          color: #ffffff;
+          margin-top: 2rem;
+        }
+        p {
+          line-height: 1.6;
+        }
+        .base-url {
+          background-color: #1f2937;
+          border: 1px solid #374151;
+          border-radius: 0.375rem;
+          padding: 1rem;
+          font-family: monospace;
+          color: #6ee7b7;
+          margin-top: 0.5rem;
+          word-break: break-all;
+        }
+        .endpoints-container {
+          background-color: #1f2937;
+          border: 1px solid #374151;
+          border-radius: 0.375rem;
+          margin-top: 1rem;
+          overflow: hidden;
+        }
+        .endpoint {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          align-items: center;
+          gap: 1.5rem;
+          padding: 1rem 1.5rem;
+          border-bottom: 1px solid #374151;
+        }
+        .endpoint:last-child {
+          border-bottom: none;
+        }
+        .method {
+          font-family: monospace;
+          font-size: 0.875rem;
+          font-weight: bold;
+          padding: 0.5rem;
+          border-radius: 0.375rem;
+          width: 6rem;
+          text-align: center;
+        }
+        .details .path {
+          font-family: monospace;
+          color: #e5e7eb;
+          font-size: 1rem;
+          margin: 0;
+          word-break: break-all;
+        }
+        .details .summary {
+          color: #9ca3af;
+          font-size: 0.875rem;
+          margin: 0.25rem 0 0 0;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <h1>Live API Explorer</h1>
+        <p>Your generated REST API is available at the following base URL:</p>
+        <div class="base-url">${baseUrl}</div>
+        
+        <h2>API Endpoints</h2>
+        <div class="endpoints-container">
+          ${endpointsHtml}
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
 };
