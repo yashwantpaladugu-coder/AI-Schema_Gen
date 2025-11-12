@@ -11,7 +11,7 @@ An advanced AI tool that transforms any data source be it an image, PDF, CSV, UR
 
 The AI Schema Generator is designed to dramatically accelerate the backend design and prototyping phase for developers. By leveraging the powerful reasoning capabilities of Google's Gemini model, this application automates the tedious process of data modeling and API design. Simply provide a data source, and the AI will act as an expert software architect to deliver a comprehensive set of development assets.
 
-DEMO WORKING SITE: https://ai-schema-generator-544356038285.us-west1.run.app
+
 
 ## Key Features
 
